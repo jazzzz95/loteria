@@ -52,7 +52,7 @@ th {
 <h1>🎰 Sistema de Lotería</h1>
 
 <p><strong>Jefes:</strong> Zayet Urriola & Abel Moreno</p>
-<p><strong>Vendedores:</strong> Máximo 2 (configuración administrativa)</p>
+<p><strong>Vendedores:</strong> Máximo 2</p>
 
 <hr>
 
@@ -99,9 +99,18 @@ function agregar() {
   const numero = document.getElementById("numero").value;
   const monto = document.getElementById("monto").value;
 
-  if (!cliente || !numero || !monto) return alert("Completa todos los campos");
+  if (!cliente || !numero || !monto) {
+    alert("Completa todos los campos");
+    return;
+  }
 
-  clientes.push({ cliente, numero, monto, estado: "Pendiente" });
+  clientes.push({
+    cliente,
+    numero,
+    monto,
+    estado: "Pendiente"
+  });
+
   render();
 }
 
@@ -113,15 +122,20 @@ function pagar(index) {
 function render() {
   const tabla = document.getElementById("tabla");
   tabla.innerHTML = "";
+
   clientes.forEach((c, i) => {
     tabla.innerHTML += `
       <tr>
         <td>${c.cliente}</td>
         <td>${c.numero}</td>
         <td>$${c.monto}</td>
-        <td class="${c.estado === 'Pagado' ? 'pagado' : 'pendiente'}">${c.estado}</td>
+        <td class="${c.estado === 'Pagado' ? 'pagado' : 'pendiente'}">
+          ${c.estado}
+        </td>
         <td>
-          ${c.estado === "Pendiente" ? `<button onclick="pagar(${i})">Marcar pagado</button>` : ""}
+          ${c.estado === "Pendiente"
+            ? `<button onclick="pagar(${i})">Marcar pagado</button>`
+            : ""}
         </td>
       </tr>
     `;
@@ -129,14 +143,17 @@ function render() {
 }
 
 function calcular() {
-  const a = Number(calc1.value);
-  const b = Number(calc2.value);
+  const a = Number(document.getElementById("calc1").value);
+  const b = Number(document.getElementById("calc2").value);
   const op = document.getElementById("op").value;
+
   let r = 0;
   if (op === "*") r = a * b;
   if (op === "+") r = a + b;
   if (op === "-") r = a - b;
-  document.getElementById("resultado").innerText = "Resultado: " + r;
+
+  document.getElementById("resultado").innerText =
+    "Resultado: " + r;
 }
 </script>
 
